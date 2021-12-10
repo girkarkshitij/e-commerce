@@ -3,42 +3,45 @@ const { Schema } = mongoose;
 const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 
-const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    maxLength: 32,
-    trim: true,
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      maxLength: 32,
+      trim: true,
+    },
+    lastname: {
+      type: String,
+      maxLength: 32,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+    userinfo: {
+      type: String,
+      trim: true,
+    },
+    encryptedpassword: {
+      type: String,
+      required: true,
+    },
+    salt: String,
+    role: {
+      type: Number,
+      default: 0,
+    },
+    purchases: {
+      type: Array,
+      default: [],
+    },
   },
-  lastname: {
-    type: String,
-    maxLength: 32,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    unique: true,
-  },
-  userinfo: {
-    type: String,
-    trim: true,
-  },
-  encryptedpassword: {
-    type: String,
-    required: true,
-  },
-  salt: String,
-  role: {
-    type: Number,
-    default: 0,
-  },
-  purchases: {
-    type: Array,
-    default: [],
-  },
-});
+  { timestamps: true }
+);
 
 userSchema
   .virtual('password')
