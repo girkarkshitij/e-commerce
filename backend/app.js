@@ -2,6 +2,9 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 mongoose
   .connect(process.env.DB_URI, {
@@ -14,6 +17,10 @@ mongoose
   .catch(() => {
     console.log('MongoDB error ❌');
   });
+
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
 const PORT = process.env.PORT || 8000;
 
