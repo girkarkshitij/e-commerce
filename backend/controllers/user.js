@@ -14,5 +14,32 @@ exports.getUserById = (req, res, next, id) => {
 };
 
 exports.getUser = (req, res) => {
+  req.profile.salt = undefined;
+  req.profile.encryptedpassword = undefined;
+  req.profile.createdAt = undefined;
+  req.profile.updatedAt = undefined;
   return res.json(req.profile);
+};
+
+exports.updateUser = (req, res) => {
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    {
+      new: true,
+      useFindAndModify: false,
+    },
+    (err, user) => {
+      if (err) {
+        return res.status(403).json({
+          msg: 'You are not authorized to update this info',
+        });
+      }
+      user.salt = undefined;
+      user.encryptedpassword = undefined;
+      user.createdAt = undefined;
+      user.updatedAt = undefined;
+      res.json(user);
+    }
+  );
 };
