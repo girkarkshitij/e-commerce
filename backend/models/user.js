@@ -54,7 +54,7 @@ userSchema
     return this._password;
   });
 
-userSchema.method = {
+userSchema.methods = {
   securePassword: function (password) {
     if (!password) return '';
     try {
